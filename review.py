@@ -1,11 +1,7 @@
 import os
 import base64
-from flask import Flask, request
-import google.cloud.logging
-import logging
 
 import vertexai
-from vertexai.language_models import TextGenerationModel
 from vertexai.preview.generative_models import GenerativeModel
 
 PROJECT_ID = os.environ.get('GCP_PROJECT', '-')
@@ -18,7 +14,7 @@ with open('user_code.txt', 'r') as f:
 vertexai.init(project=PROJECT_ID, location=LOCATION)
 model = GenerativeModel("gemini-1.5-pro-preview-0409")
 
-### 
+
 prompt = f"""
     Consider the following code:
     {user_code}
@@ -39,7 +35,7 @@ prompt = f"""
         Issue: Loading entire file into memory at once could be inefficient for large files.
         Suggestion: Consider using a generator or line-by-line processing to reduce memory usage.
         Severity: Medium (depends on your application's expected file sizes)"""
-### 
+
 
 prompt_response = model.generate_content(prompt,
         generation_config={
